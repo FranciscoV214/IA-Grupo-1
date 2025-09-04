@@ -10,7 +10,7 @@ hechos = np.array([0, 0, 0, 1, 1, 0, 0], dtype=bool)
 
 # Reglas del ejercicio 3
 # Antecedentes
-antecedentes = np.array([
+premisas = np.array([
     [0, 1, 1, 0, 0, 0, 0],  # R1: b ∧ c
     [0, 0, 0, 1, 1, 0, 0],  # R2: d ∧ e
     [0, 0, 0, 0, 1, 0, 1],  # R3: g ∧ e
@@ -18,8 +18,8 @@ antecedentes = np.array([
     [1, 0, 0, 0, 0, 0, 1],  # R7: a ∧ g
 ], dtype=bool)
 
-# Consecuentes
-consecuentes = np.array([
+# Conclusiones
+conclusiones = np.array([
     [1, 0, 0, 0, 0, 0, 0],  # R1 → a
     [0, 1, 0, 0, 0, 0, 0],  # R2 → b
     [0, 1, 0, 0, 0, 0, 0],  # R3 → b
@@ -31,15 +31,15 @@ nombres = ["a", "b", "c", "d", "e", "f", "g"]
 
 # ---------------------------------------------------
 # Encadenamiento hacia adelante con traza
-def encadenar(hechos, antecedentes, consecuentes, nombres):
+def encadenar(hechos, premisas, conclusiones, nombres):
     hechos = hechos.copy()
     cambio = True
     paso = 1
     while cambio:
         cambio = False
-        for i in range(len(antecedentes)):
-            if np.all(hechos[antecedentes[i]]):
-                nuevos = consecuentes[i] & ~hechos
+        for i in range(len(premisas)):
+            if np.all(hechos[premisas[i]]):
+                nuevos = conclusiones[i] & ~hechos
                 if np.any(nuevos):
                     hechos = hechos | nuevos
                     concl = [nombres[j] for j in range(len(hechos)) if nuevos[j]]
@@ -51,8 +51,8 @@ def encadenar(hechos, antecedentes, consecuentes, nombres):
 # ---------------------------------------------------
 # Prueba 1: hechos iniciales {d, e}
 print("PRUEBA 1: hechos iniciales {d, e}")
-encadenar(np.array([0,0,0,1,1,0,0], dtype=bool), antecedentes, consecuentes, nombres)
+encadenar(np.array([0,0,0,1,1,0,0], dtype=bool), premisas, conclusiones, nombres)
 
 # Prueba 2: hechos iniciales {d, e, g}
 print("\nPRUEBA 2: hechos iniciales {d, e, g}")
-encadenar(np.array([0,0,0,1,1,0,1], dtype=bool), antecedentes, consecuentes, nombres)
+encadenar(np.array([0,0,0,1,1,0,1], dtype=bool), premisas, conclusiones, nombres)
