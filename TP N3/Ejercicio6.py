@@ -100,4 +100,8 @@ def algoritmo_genetico(N=20, generaciones=100, prob_mut=0.2):
     print(f"Precio total: {precio_total(mejor_global)}")
 
 # Ejecutar
+<<<<<<< HEAD
 algoritmo_genetico(N=20, generaciones=100)
+=======
+algoritmo_genetico(N=20, generaciones=100)
+>>>>>>> b7928b49e21ab363dec5d37fe183af9797f0b138
