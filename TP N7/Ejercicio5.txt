@@ -1,0 +1,66 @@
+(deftemplate paciente
+  (slot estado)        ;; incipiente / avanzado / terminal
+  (slot dosis)         ;; baja / alta
+  (slot condicion))    ;; fuerte / debil
+
+
+;; --------------------
+;; Reglas de diagnóstico
+;; --------------------
+
+(defrule incipiente-dosis-baja
+   (paciente (estado incipiente) (dosis baja))
+   =>
+   (printout t "El paciente se cura con dosis baja en estado incipiente." crlf))
+
+(defrule incipiente-dosis-alta
+   (paciente (estado incipiente) (dosis alta))
+   =>
+   (printout t "El paciente muere por sobredosificación en estado incipiente." crlf))
+
+(defrule avanzado
+   (paciente (estado avanzado))
+   =>
+   (printout t "El paciente se cura en estado avanzado." crlf))
+
+(defrule terminal-fuerte
+   (paciente (estado terminal) (condicion fuerte))
+   =>
+   (printout t "El paciente muere en estado terminal con condición fuerte." crlf))
+
+(defrule terminal-debil
+   (paciente (estado terminal) (condicion debil))
+   =>
+   (printout t "El paciente se cura en estado terminal con condición débil." crlf))
+
+
+;; --------------------
+;; Función principal
+;; --------------------
+
+(deffunction iniciar ()
+   (reset)
+   (printout t "Ingrese estado de la enfermedad (incipiente / avanzado / terminal): " crlf)
+   (bind ?estado (read))
+
+   (if (eq ?estado incipiente) then
+      (printout t "Ingrese dosis (baja / alta): " crlf)
+      (bind ?dosis (read))
+      (assert (paciente (estado incipiente) (dosis ?dosis))))
+
+   (if (eq ?estado avanzado) then
+      (assert (paciente (estado avanzado))))
+
+   (if (eq ?estado terminal) then
+      (printout t "Ingrese condición física (fuerte / debil): " crlf)
+      (bind ?cond (read))
+      (assert (paciente (estado terminal) (condicion ?cond))))
+
+   (run)
+
+   ;; preguntar si quiere volver a ejecutar
+   (printout t crlf "¿Desea realizar otra evaluación? (si / no): " crlf)
+   (bind ?resp (read))
+   (if (eq ?resp si) then
+      (iniciar))
+)
