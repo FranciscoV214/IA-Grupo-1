@@ -210,6 +210,5 @@ plt.ylabel('Coordenada Y')
 plt.xlim(MIN_VALOR - 0.5, MAX_VALOR + 0.5)
 plt.ylim(MIN_VALOR - 0.5, MAX_VALOR + 0.5)
 plt.grid(True, linestyle='--', alpha=0.5)
-plt.legend()
 plt.gca().set_aspect('equal', adjustable='box')
 plt.show() # Muestra la tercera figura
